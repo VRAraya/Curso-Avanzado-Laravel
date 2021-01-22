@@ -31,7 +31,7 @@ class ProductControllerTest extends TestCase
     public function test_create_new_product()
     {
         $data = [
-            'name' => 'Hola',
+            'name' => 'One Product',
             'price' => 1000,
         ];
         $response = $this->postJson('/api/products', $data);
