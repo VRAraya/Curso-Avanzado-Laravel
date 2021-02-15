@@ -17,7 +17,7 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    // A product has been created by a user
+    // A product has been created by a unique user
     public function createdBy()
     {    
         return $this->belongsTo(User::class, 'created_by');
