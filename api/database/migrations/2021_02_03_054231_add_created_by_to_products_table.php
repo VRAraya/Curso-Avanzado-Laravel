@@ -15,7 +15,8 @@ class AddCreatedByToProductsTable extends Migration
     public function up()
     {
         $user = User::factory()->create([
-            'name' => 'Administrator'
+            'name' => 'Administrator',
+            'email' => 'administrator@example.com'
         ]);
 
         Schema::table('products', function (Blueprint $table) use ($user) {

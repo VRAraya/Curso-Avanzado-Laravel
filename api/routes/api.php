@@ -21,8 +21,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('categories', CategoryController::class);
-Route::resource('products', ProductController::class)
-    -> middleware('auth:sanctum');
-
+// Authentication Token Route
 Route::post('sanctum/token', UserTokenController::class);
+
+// Resources Routes
+Route::resource('categories', CategoryController::class)
+    ->middleware('auth:sanctum');
+Route::resource('products', ProductController::class)
+    ->middleware('auth:sanctum');

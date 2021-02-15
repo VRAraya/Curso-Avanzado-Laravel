@@ -2,10 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
+
+use App\Models\User;
+use App\Models\Category;
 
 class CategoryControllerTest extends TestCase
 {
@@ -14,6 +17,10 @@ class CategoryControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        Sanctum::actingAs(
+            User::factory()->create()
+        );
     }
 
     public function test_index()
@@ -24,7 +31,7 @@ class CategoryControllerTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertHeader('content-type', 'application/json');
-        $response->assertJsonCount(5);
+        $response->assertJsonCount(5, 'data');
     }
 
     public function test_create_new_category()

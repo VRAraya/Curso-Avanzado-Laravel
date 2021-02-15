@@ -13,11 +13,11 @@ class UserTokenController extends Controller
 {
     public function __invoke(UserTokenRequest $request)
     {
-        $user = User::where('email', $request -> get('email')) -> first();
+        $user = User::where('email', $request->get('email'))->first();
 
         if(!$user) {
             throw ValidationException::withMessages([
-                'email' => 'El email no existe o no coincide con nuestros datos'
+                'email' => 'The email does not exist or does not match our data'
             ]);
         }
 
@@ -28,7 +28,7 @@ class UserTokenController extends Controller
         }
 
         return response() -> json([
-            'token' => $user -> createToken($request->device_name) -> plainTextToken
+            'token' => $user->createToken($request->device_name)->plainTextToken
         ]);
     }
 }
