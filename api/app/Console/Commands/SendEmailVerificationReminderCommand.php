@@ -6,11 +6,10 @@ use Illuminate\Console\Command;
 
 use App\Models\User;
 use Carbon\Carbon;
-use App\Notifications\NewsletterNotification;
 
-class SendNewsletterToVerifyEmailCommand extends Command
+class SendEmailVerificationReminderCommand extends Command
 {
-    protected $signature = 'send:newsletterToVerifyEmail {emails?*}';
+    protected $signature = 'send:emailVerificationReminder {emails?*}';
     protected $description = 'Send an email to users who have not checked their email within a week';
 
     public function handle()
