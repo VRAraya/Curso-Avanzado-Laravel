@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\UserTokenController;
 
 /*
@@ -23,6 +24,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // Authentication Token Route
 Route::post('sanctum/token', UserTokenController::class);
+
+// Routes for Send Emails
+Route::post('/newsletters', [NewsletterController::class, 'sendNewsletter'])
+    ->middleware('auth:sanctum');
+Route::post('/emailVerify', [NewsletterController::class, 'sendEmailVerificationReminder'])
+    ->middleware('auth:sanctum');
 
 // Resources Routes
 Route::resource('categories', CategoryController::class)
