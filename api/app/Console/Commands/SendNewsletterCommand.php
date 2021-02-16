@@ -9,35 +9,40 @@ use App\Notifications\NewsletterNotification;
 
 class SendNewsletterCommand extends Command
 {
-    protected $signature = 'send:newsletter {emails?*}';
+    protected $signature = 'send:newsletter
+                            {emails?*} : Emails to send directly
+                            {--s|schedule : Whether it should be executed directly or not}';
+
     protected $description = 'Send an email';
 
     public function handle()
     {
         $emails = $this->argument('emails');
+        $schedule = $this->option('schedule');
+
         $builder = User::query();
 
         if($emails) {
             $builder->whereIn('email', $emails);
         }
 
+        $builder->whereNotNull('email_verified_at');
         $count = $builder->count();
         
         if($count) {
-            $this->output->progressStart($count);
+            $this->info("Will be sent {$count} mails");
 
-            $builder
-                ->whereNotNull('email_verified_at')
-                ->each(function (User $user) {
+            if($this->confirm('Are you sure?') || $schedule) {
+                $this->output->progressStart($count);
+                $builder->each(function (User $user) {
                     $user->notify(new NewsletterNotification());
                     $this->output->progressAdvance();
                 });
-
-            $this->info("\n{$count} mails were sent");
-            $this->output->progressFinish();
-        } else {
-            $this->info('No mails was sent');
+                $this->output->progressFinish();
+                $this->info("\n{$count} mails were sent");
+                return;
+            }
         }
-
+        $this->info('No mails was sent');
     }
 }
