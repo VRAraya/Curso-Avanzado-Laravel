@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\User;
 
-class ProductResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,9 +18,7 @@ class ProductResource extends JsonResource
         return [
             'id' => (int) $this->id,
             'name' => (string) $this->name,
-            'price' => (float) $this->price,
-            'created_by' => (int) $this->created_by,
-            'category_id' => (int) $this->category_id,
+            'email' => (string) $this->email,
             'rating_avg' => (float) $this->averageRating(User::class)
         ];
     }

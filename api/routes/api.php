@@ -2,9 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserTokenController;
 
 /*
@@ -18,7 +20,7 @@ use App\Http\Controllers\UserTokenController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -31,8 +33,16 @@ Route::post('/newsletters', [NewsletterController::class, 'sendNewsletter'])
 Route::post('/emailVerify', [NewsletterController::class, 'sendEmailVerificationReminder'])
     ->middleware('auth:sanctum');
 
+// Rating Resources Routes
+Route::post('/rating/product/{product}', [RatingController::class, 'ratingProduct'])
+    ->middleware('auth:sanctum');
+Route::post('/rating/user/{user}', [RatingController::class, 'ratingUser'])
+    ->middleware('auth:sanctum');
+
 // Resources Routes
 Route::resource('categories', CategoryController::class)
     ->middleware('auth:sanctum');
 Route::resource('products', ProductController::class)
+    ->middleware('auth:sanctum');
+Route::resource('users', UserController::class)
     ->middleware('auth:sanctum');
