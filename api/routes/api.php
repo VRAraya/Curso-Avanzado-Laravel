@@ -27,22 +27,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Authentication Token Route
 Route::post('sanctum/token', UserTokenController::class);
 
-// Routes for Send Emails
-Route::post('/newsletters', [NewsletterController::class, 'sendNewsletter'])
-    ->middleware('auth:sanctum');
-Route::post('/emailVerify', [NewsletterController::class, 'sendEmailVerificationReminder'])
-    ->middleware('auth:sanctum');
+// Routes with Auth protection
+Route::middleware(['auth:sanctum'])->group(function () {
 
-// Rating Resources Routes
-Route::post('/rating/product/{product}', [RatingController::class, 'ratingProduct'])
-    ->middleware('auth:sanctum');
-Route::post('/rating/user/{user}', [RatingController::class, 'ratingUser'])
-    ->middleware('auth:sanctum');
+    // Routes for Send Emails
+    Route::post('/newsletters', [NewsletterController::class, 'sendNewsletter']);
+    Route::post('/emailVerify', [NewsletterController::class, 'sendEmailVerificationReminder']);
 
-// Resources Routes
-Route::resource('categories', CategoryController::class)
-    ->middleware('auth:sanctum');
-Route::resource('products', ProductController::class)
-    ->middleware('auth:sanctum');
-Route::resource('users', UserController::class)
-    ->middleware('auth:sanctum');
+    // Rating Resources Routes
+    Route::post('/products/{product}/rate', [RatingController::class, 'ratingProduct']);
+    Route::post('/products/{product}/unrate', [RatingController::class, 'unratingProduct']);
+    Route::post('/users/{user}/rate', [RatingController::class, 'ratingUser']);
+    Route::post('/users/{user}/unrate', [RatingController::class, 'unratingUser']);
+
+    // Resources Routes
+    Route::resource('categories', CategoryController::class);
+    Route::resource('products', ProductController::class);
+    Route::resource('users', UserController::class);
+});

@@ -27,23 +27,24 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //     ->evenInMaintenanceMode()
-        //     ->sendOutputTo(storage_path('inspire.log'))
-        //     ->everyMinute();
+        $schedule->command('inspire')
+            ->sendOutputTo(storage_path('inspire.log'))
+            ->hourly();
 
-        // $schedule->call(function() {
-        //     echo "hola";
-        // })->everyFiveMinutes();
+        $schedule->call(function() {
+            echo "Test";
+        })  ->everyMinute()
+            ->evenInMaintenanceMode();
 
-        // $schedule->command(SendNewsletterCommand::class)
-        //     ->withoutOverlapping()
-        //     ->onOneServer()
-        //     ->mondays();
+        $schedule->command('send:newsletter --schedule')
+            ->onOneServer()
+            ->withoutOverlapping()
+            ->mondays();
         
-        // $schedule->command(SendEmailVerificationReminderCommand::class)
-        //     ->onOneServer()
-        //     ->daily();
+        $schedule->command(SendEmailVerificationReminderCommand::class)
+            ->onOneServer()
+            ->withoutOverlapping()
+            ->daily();
     }
 
     /**

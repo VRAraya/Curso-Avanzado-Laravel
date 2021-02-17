@@ -2,10 +2,19 @@
 
 namespace App\Models\Utils;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Rating;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait CanBeRate
 {
+    public function qualifications(): HasMany
+    {
+        $hasMany = $this->hasMany(Rating::class, 'rateable_id');
+
+        return $hasMany
+            ->where('rateable_type', $this->getMorphClass());
+    }
+
     public function qualifiers($model = null)
     {        
         $modelClass = $model ? (new $model)->getMorphClass() : $this->getMorphClass();

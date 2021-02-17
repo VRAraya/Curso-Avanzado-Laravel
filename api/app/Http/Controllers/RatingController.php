@@ -21,10 +21,26 @@ class RatingController extends Controller
         return new ProductResource($product);
     }
 
+    public function unratingProduct(Request $request, Product $product)
+    {
+        $user = $request->user();
+        $user->unrate($product);
+
+        return new ProductResource($product);
+    }
+
     public function ratingUser(RatingRequest $request, User $user)
     {
-        $qualiifier_user = $request->user();
-        $qualiifier_user->rate($user, $request->score);
+        $qualifier_user = $request->user();
+        $qualifier_user->rate($user, $request->score);
+
+        return new UserResource($user);
+    }
+
+    public function unratingUser(Request $request, User $user)
+    {
+        $qualifier_user = $request->user();
+        $qualifier_user->unrate($user);
 
         return new UserResource($user);
     }
