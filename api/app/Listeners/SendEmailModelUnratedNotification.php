@@ -5,8 +5,9 @@ namespace App\Listeners;
 use App\Events\ModelUnrated;
 use App\Models\Product;
 use App\Notifications\ModelUnratedNotification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendEmailModelUnratedNotification
+class SendEmailModelUnratedNotification implements ShouldQueue
 {
     public function handle(ModelUnrated $event)
     {

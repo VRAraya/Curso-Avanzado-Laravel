@@ -5,8 +5,9 @@ namespace App\Listeners;
 use App\Events\ModelRated;
 use App\Models\Product;
 use App\Notifications\ModelRatedNotification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendEmailModelRatedNotification
+class SendEmailModelRatedNotification implements ShouldQueue
 {
     public function handle(ModelRated $event)
     {

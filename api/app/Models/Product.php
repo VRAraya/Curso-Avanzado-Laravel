@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Utils\CanBeRate;
+use App\Events\ProductCreating;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +15,7 @@ class Product extends Model
     protected $guarded = [];
 
     protected $dispatchesEvents = [
-        'creating' => UserCreating::class
+        'creating' => ProductCreating::class
     ];
 
     // A product belongs to one category
