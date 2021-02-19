@@ -13,6 +13,10 @@ class Product extends Model
 
     protected $guarded = [];
 
+    protected $dispatchesEvents = [
+        'creating' => UserCreating::class
+    ];
+
     // A product belongs to one category
     public function category()
     {    
@@ -24,4 +28,5 @@ class Product extends Model
     {    
         return $this->belongsTo(User::class, 'created_by');
     }
+
 }

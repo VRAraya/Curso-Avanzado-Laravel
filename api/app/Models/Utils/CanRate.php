@@ -3,6 +3,8 @@
 namespace App\Models\Utils;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Events\ModelRated;
+use App\Events\ModelUnrated;
 
 trait CanRate
 {
@@ -44,6 +46,8 @@ trait CanRate
             'rateable_type' => get_class($model)
         ]);
 
+        event(new ModelRated($this, $model, $score));
+
         return true;
     }
 
@@ -54,6 +58,8 @@ trait CanRate
         }
 
         $this->ratings($model->getMorphClass())->detach($model->getKey());
+
+        event(new ModelUnrated($this, $model));
 
         return true;
     }
